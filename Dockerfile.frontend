@@ -1,0 +1,19 @@
+# --- Dockerfile.frontend ---
+# This Dockerfile is for the React frontend.
+# We'll use a multi-stage build to keep the final image size small.
+
+# Stage 1: Build the React application.
+FROM node:18-alpine as builder
+WORKDIR /app
+COPY ./frontend/package.json ./frontend/package-lock.json ./
+RUN npm install
+COPY ./frontend/ .
+RUN npm run build
+
+# Stage 2: Serve the application with Nginx.
+FROM nginx:alpine
+# Copy the built files from the builder stage.
+COPY --from=builder /app/build /usr/share/nginx/html
+# Expose port 80 for the frontend.
+EXPOSE 80
+# The Nginx image has a default CMD that starts the server.
