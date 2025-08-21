@@ -1,0 +1,15 @@
+# --- Dockerfile.backend ---
+# This Dockerfile is for the Node.js backend.
+
+# Use a lean official Node.js image.
+FROM node:18-alpine
+WORKDIR /app
+# Copy package.json and package-lock.json first to leverage Docker's layer caching.
+COPY ./backend/package*.json ./
+RUN npm install
+# Copy the rest of the application code.
+COPY ./backend/ .
+# Expose port 3001 for the backend API.
+EXPOSE 3001
+# Command to run the application when the container starts.
+CMD ["node", "server.js"]
