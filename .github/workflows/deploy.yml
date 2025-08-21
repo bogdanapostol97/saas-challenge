@@ -1,0 +1,76 @@
+# --- .github/workflows/deploy.yml ---
+# This workflow automates the build and deployment process for Azure.
+# It will build Docker images, push them to Azure Container Registry (ACR),
+# and then use SSH to connect to the VM and run the containers.
+
+name: Azure CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push Docker images to ACR
+        env:
+          ACR_NAME: ${{ secrets.AZURE_ACR_NAME }}
+        run: |
+          az acr login --name $ACR_NAME
+          
+          # Build and tag the backend image.
+          docker build -t $ACR_NAME.azurecr.io/my-saas-backend:latest -f Dockerfile.backend .
+          # Build and tag the frontend image.
+          docker build -t $ACR_NAME.azurecr.io/my-saas-frontend:latest -f Dockerfile.frontend .
+          
+          # Push the images to ACR.
+          docker push $ACR_NAME.azurecr.io/my-saas-backend:latest
+          docker push $ACR_NAME.azurecr.io/my-saas-frontend:latest
+
+      - name: Deploy to Azure VM via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: azureuser
+          key: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+          script: |
+            # Pull the latest images from ACR.
+            # You may need to login to ACR from the VM first, but the credentials
+            # are typically managed automatically if using a Managed Identity.
+            docker pull ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/my-saas-backend:latest
+            docker pull ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/my-saas-frontend:latest
+            
+            # Stop and remove existing containers to ensure a clean deployment.
+            docker ps -a -q --filter "name=frontend" | grep -q . && docker stop frontend && docker rm frontend || true
+            docker ps -a -q --filter "name=backend" | grep -q . && docker stop backend && docker rm backend || true
+            
+            # Create a simple docker-compose.yml file on the Azure VM.
+            # For production, this should be a more robust solution.
+            cat << 'EOF' > docker-compose.yml
+            version: '3.8'
+            services:
+              frontend:
+                image: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/my-saas-frontend:latest
+                ports:
+                  - "80:80"
+                depends_on:
+                  - backend
+              backend:
+                image: ${{ secrets.AZURE_ACR_NAME }}.azurecr.io/my-saas-backend:latest
+                ports:
+                  - "3001:3001"
+            EOF
+
+            # Run the application with docker-compose in detached mode.
+            docker-compose up -d
