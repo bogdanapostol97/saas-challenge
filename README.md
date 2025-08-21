@@ -34,6 +34,10 @@ Prerequisites:
 
 The CI/CD pipeline is configured using GitHub Actions and is defined in .github/workflows/deploy.yml. The workflow is triggered automatically on every push to the main branch.
 
+The secrets created for the pipeline. 
+
+<img width="2394" height="1540" alt="image" src="https://github.com/user-attachments/assets/47f347c9-4aa3-4a6a-bbf2-a4cf88c2961c" />
+
 <h3> Pipeline Steps: </h3>
 
 - Azure Login: The workflow authenticates to Azure using a Service Principal's credentials stored as a GitHub secret.
@@ -54,3 +58,4 @@ These are the resources that were created in the Azure portal using the Terrafor
 <img width="3426" height="1678" alt="image" src="https://github.com/user-attachments/assets/ac80c7c1-e5ec-4504-8f8f-656e324a0b1f" />
 
 <img width="3396" height="816" alt="image" src="https://github.com/user-attachments/assets/d6ce1060-ad89-4faf-af43-eb9fdfc3b286" />
+
