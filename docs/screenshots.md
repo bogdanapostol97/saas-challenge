@@ -1,4 +1,4 @@
-<img width="2394" height="1540" alt="image" src="https://github.com/user-attachments/assets/79b78a14-428f-4372-be4f-2003a1a82339" /><h3> Architecure </h3>
+<h3> Architecure </h3>
 
 <img width="688" height="1024" alt="image" src="https://github.com/user-attachments/assets/004354a0-8205-42ce-9e66-5bd9ece8a307" />
 
