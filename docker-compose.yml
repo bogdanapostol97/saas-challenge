@@ -1,0 +1,32 @@
+# --- docker-compose.yml ---
+# This file is used for local development and running the application.
+# It defines the services (containers), networks, and volumes for our application.
+
+version: '3.8'
+
+services:
+  frontend:
+    # Use the Dockerfile for the frontend.
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    # Map port 80 on the host to port 80 in the container.
+    ports:
+      - "80:80"
+    # This makes the frontend connect to the backend service.
+    depends_on:
+      - backend
+
+  backend:
+    # Use the Dockerfile for the backend.
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    # Map port 3001 on the host to port 3001 in the container.
+    # We won't expose this in production, but it's useful for local testing.
+    ports:
+      - "3001:3001"
+    # Mount the local backend code into the container for live reloading in development.
+    # This is useful for development but should be removed for production images.
+    volumes:
+      - ./backend:/app
