@@ -34,8 +34,6 @@ Prerequisites:
 
 The CI/CD pipeline is configured using GitHub Actions and is defined in .github/workflows/deploy.yml. The workflow is triggered automatically on every push to the main branch.
 
-The secrets created for the pipeline. 
-
 <h3> Pipeline Steps: </h3>
 
 - Azure Login: The workflow authenticates to Azure using a Service Principal's credentials stored as a GitHub secret.
@@ -48,4 +46,5 @@ The secrets created for the pipeline.
 - Monitoring for the Azure VM is configured using Azure Monitor. 
 - The Terraform script automatically creates a metric alert that triggers when the Percentage CPU of the VM exceeds 70% over a 5-minute period.
 - You can configure this alert to send notifications to email, SMS, or other services via action groups within the Azure portal.
+
 
