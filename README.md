@@ -36,8 +36,6 @@ The CI/CD pipeline is configured using GitHub Actions and is defined in .github/
 
 The secrets created for the pipeline. 
 
-<img width="2394" height="1540" alt="image" src="https://github.com/user-attachments/assets/47f347c9-4aa3-4a6a-bbf2-a4cf88c2961c" />
-
 <h3> Pipeline Steps: </h3>
 
 - Azure Login: The workflow authenticates to Azure using a Service Principal's credentials stored as a GitHub secret.
@@ -50,3 +48,4 @@ The secrets created for the pipeline.
 - Monitoring for the Azure VM is configured using Azure Monitor. 
 - The Terraform script automatically creates a metric alert that triggers when the Percentage CPU of the VM exceeds 70% over a 5-minute period.
 - You can configure this alert to send notifications to email, SMS, or other services via action groups within the Azure portal.
+
