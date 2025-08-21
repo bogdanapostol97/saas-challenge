@@ -1,5 +1,3 @@
-// --- ./backend/package.json ---
-// Dependencies for the Node.js backend.
 {
     "name": "backend",
     "version": "1.0.0",
