@@ -1,4 +1,4 @@
-<h1> SaaS Escalation and Operations Engineer - Real Work Challenge</h1>
+<h1> SaaS Escalation and Operations Engineer - Real Work Challenge </h1>
 
 This repository contains the full set of deliverables for the Sparkrock "SaaS Escalation and Operations Engineer" challenge, with an infrastructure and pipeline designed for Microsoft Azure. The goal is to provision, deploy, and monitor a Dockerized web application using Infrastructure as Code (IaC) and an automated CI/CD pipeline.
 
@@ -6,31 +6,7 @@ This repository contains the full set of deliverables for the Sparkrock "SaaS Es
 
 The infrastructure is provisioned using Terraform on Microsoft Azure. It is designed to be simple and robust, consisting of a single Azure Virtual Machine (VM) running the Dockerized application within a dedicated Virtual Network (VNet) and a Resource Group.
 
-+-----------------------------------+
-|               Azure               |
-|                                   |
-|   +----------------------------+  |
-|   |   Resource Group           |  |
-|   |   +---------------------+  |  |
-|   |   |   VNet (10.0.0.0/16)  |  |
-|   |   |                     |  |  |
-|   |   | +-----------------+ |  |  |
-|   |   | |   Subnet        | |  |  |
-|   |   | | (10.0.1.0/24)   | |  |  |
-|   |   | |   +---------+   | |  |  |
-|   |   | |   | Azure VM  | | |  |  |
-|   |   | |   +---------+   | |  |  |
-|   |   | |      |        | | |  |  |
-|   |   | +------|--------+ | |  |  |
-|   |   +--------|----------+ |  |  |
-|   |            |            |  |  |
-|   |   +--------|----------+ |  |  |
-|   |   | Network Security | |  |  |
-|   |   | Group (NSG)      | |  |  |
-|   |   +------------------+ |  |  |
-|   +------------------------+  |  |
-|                               |  |
-+-----------------------------------+
+<img width="688" height="1024" alt="image" src="https://github.com/user-attachments/assets/ee54f6bd-2d2a-48ef-95b0-6ffbb50aa52d" />
 
 <h2> Deployment Instructions </h2>
 
@@ -70,3 +46,11 @@ The CI/CD pipeline is configured using GitHub Actions and is defined in .github/
 - Monitoring for the Azure VM is configured using Azure Monitor. 
 - The Terraform script automatically creates a metric alert that triggers when the Percentage CPU of the VM exceeds 70% over a 5-minute period.
 - You can configure this alert to send notifications to email, SMS, or other services via action groups within the Azure portal.
+
+<h2> Created resources in Azure portal </h2>
+
+These are the resources that were created in the Azure portal using the Terraform code:
+
+<img width="3426" height="1678" alt="image" src="https://github.com/user-attachments/assets/ac80c7c1-e5ec-4504-8f8f-656e324a0b1f" />
+
+<img width="3396" height="816" alt="image" src="https://github.com/user-attachments/assets/d6ce1060-ad89-4faf-af43-eb9fdfc3b286" />
